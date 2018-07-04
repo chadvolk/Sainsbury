@@ -1,4 +1,4 @@
-import json , requests , warnings, ssl
+import json , requests , warnings, ssl, csv
 
 
 api_url_base = 'https://api.stores.sainsburys.co.uk/v1/stores/all/'
@@ -6,7 +6,7 @@ api_url_base = 'https://api.stores.sainsburys.co.uk/v1/stores/all/'
 
 #headers = {'Content-Type': 'application/json' , 'username': u ,'password':p }
 headers = {'Content-Type': 'application/json'  }
-
+csvfile = 'district_codes.csv'
 def get_result_info():
     api_url = format(api_url_base)
 
@@ -23,6 +23,13 @@ def get_district_codes() :
     for node in result_info['results'] :
         #print(node['district_code'])
         district_codes.append(node['district_code'])
+        
+    #Write the district codes in a csv file 
+    with open(csvfile, "w") as output:
+        writer = csv.writer(output, lineterminator='\n')
+        for val in district_codes:
+            writer.writerow([val])
+    #return district_codes
     return district_codes
 
 
